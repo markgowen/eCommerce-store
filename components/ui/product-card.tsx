@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Expand, ShoppingCart } from "lucide-react";
 
 import { Product } from "@/types";
@@ -12,8 +13,17 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/product/${data?.id}`);
+  };
+
   return (
-    <div className="group cursor-pointer space-y-4 rounded-xl p-3">
+    <div
+      onClick={handleClick}
+      className="group cursor-pointer space-y-4 rounded-xl  p-3"
+    >
       {/* Images and Actions */}
       <div className="relative aspect-square rounded-xl bg-gray-100">
         <Image
@@ -23,7 +33,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
           className="aspect-square rounded-md object-cover"
         />
         <div className="absolute bottom-5 w-full px-6 opacity-0 transition group-hover:opacity-100">
-          <div className="flex justify-center gap-x-6">
+          <div className="flex justify-center gap-x-4">
             <IconButton
               onClick={() => {}}
               icon={<Expand size={20} className="text-gray-600" />}
@@ -37,12 +47,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
       </div>
       {/* Description */}
       <div>
-        <p className="text-lg font-semibold">{data.name}</p>
-        <p className="text-sm text-gray-500">{data.category?.name}</p>
-      </div>
-      {/* Price */}
-      <div className="flex items-center justify-between">
-        <Currency value={data?.price} />
+        <p className="text-lg font-semibold">{data.name.toUpperCase()}</p>
+        {/* <p className="text-sm text-gray-500">{data.category?.name}</p>u */}
+        {/* Price */}
+        <div className="flex items-center justify-between">
+          <Currency value={data?.price} />
+        </div>
       </div>
     </div>
   );
